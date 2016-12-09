@@ -42,7 +42,6 @@ dependencies {
     compile "com.android.support:design:$SUPPORT_LIB_VERSION"
 
     compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
-}
-repositories {
-    mavenCentral()
+
+    compile 'com.jakewharton.threetenabp:threetenabp:1.0.4'
 }
