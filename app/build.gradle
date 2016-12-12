@@ -28,7 +28,12 @@ android {
     }
 }
 
+kapt {
+    generateStubs = true
+}
+
 def SUPPORT_LIB_VERSION = '24.2.1'
+def DAGGER_VERSION = '2.8'
 
 dependencies {
 
@@ -47,4 +52,7 @@ dependencies {
 
     compile 'io.reactivex:rxjava:1.2.3'
     compile 'io.reactivex:rxandroid:1.2.1'
+
+    compile "com.google.dagger:dagger:$DAGGER_VERSION"
+    kapt "com.google.dagger:dagger-compiler:$DAGGER_VERSION"
 }
