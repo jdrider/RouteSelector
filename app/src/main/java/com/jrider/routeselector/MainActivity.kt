@@ -3,7 +3,7 @@ package com.jrider.routeselector
 import android.content.Intent
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
-import com.jrider.routeselector.ui.routes.AddRouteActivity
+import com.jrider.routeselector.features.routes.AddRouteActivity
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
