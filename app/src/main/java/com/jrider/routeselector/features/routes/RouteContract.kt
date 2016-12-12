@@ -5,6 +5,10 @@ import com.jrider.routeselector.mvp.BaseView
 
 interface RouteContract {
 
+    companion object{
+        const val NEW_ROUTE_ID = -1
+    }
+
     interface View : BaseView {
 
         fun setRouteTime(routeTime: String)
@@ -14,6 +18,6 @@ interface RouteContract {
 
         fun saveRoute()
 
-        fun setRoute(routeId: Int)
+        fun setRoute(routeId: Int = NEW_ROUTE_ID)
     }
 }

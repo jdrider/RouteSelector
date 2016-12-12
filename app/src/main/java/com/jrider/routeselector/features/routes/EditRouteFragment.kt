@@ -15,6 +15,24 @@ class EditRouteFragment : Fragment(), RouteContract.View {
     @Inject
     lateinit var presenter: RoutePresenter
 
+    companion object{
+
+        private const val ROUTE_ID_KEY: String = "EditRouteFragment.RouteId"
+
+        fun newInstance(routeId: Int) : EditRouteFragment{
+
+            val editRouteFragment = EditRouteFragment()
+
+            val editArguments = Bundle()
+
+            editArguments.putInt(ROUTE_ID_KEY, routeId)
+
+            editRouteFragment.arguments = editArguments
+
+            return editRouteFragment
+        }
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -31,7 +49,14 @@ class EditRouteFragment : Fragment(), RouteContract.View {
 
         presenter.attachView(this)
 
-        presenter.setRoute(-1)
+        if(arguments != null && arguments.containsKey(ROUTE_ID_KEY)) {
+            val routeIdToEdit = arguments.getInt(ROUTE_ID_KEY)
+
+            presenter.setRoute(routeIdToEdit)
+        }
+        else {
+            presenter.setRoute()
+        }
     }
 
     override fun onDestroyView() {
