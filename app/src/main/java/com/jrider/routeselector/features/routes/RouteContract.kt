@@ -13,5 +13,7 @@ interface RouteContract {
     interface Presenter : BasePresenter<View> {
 
         fun saveRoute()
+
+        fun setRoute(routeId: Int)
     }
 }

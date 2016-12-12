@@ -3,7 +3,7 @@ package com.jrider.routeselector
 import android.content.Intent
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
-import com.jrider.routeselector.features.routes.AddRouteActivity
+import com.jrider.routeselector.features.routes.EditRouteActivity
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
@@ -13,7 +13,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         main_btn_add_route.setOnClickListener { view ->
-            val addRouteIntent = Intent(this, AddRouteActivity::class.java)
+            val addRouteIntent = Intent(this, EditRouteActivity::class.java)
 
             startActivity(addRouteIntent)
         }

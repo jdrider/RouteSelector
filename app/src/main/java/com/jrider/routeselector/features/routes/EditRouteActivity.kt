@@ -4,14 +4,14 @@ import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import com.jrider.routeselector.R
 
-class AddRouteActivity : AppCompatActivity() {
+class EditRouteActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_add_route)
+        setContentView(R.layout.activity_edit_route)
 
-        val addRouteFragment = AddRouteFragment()
+        val editRouteFragment = EditRouteFragment()
 
-        supportFragmentManager.beginTransaction().replace(R.id.activity_add_route, addRouteFragment).commit()
+        supportFragmentManager.beginTransaction().replace(R.id.activity_add_route, editRouteFragment).commit()
     }
 }
