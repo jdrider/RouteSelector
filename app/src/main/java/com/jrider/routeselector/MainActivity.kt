@@ -12,7 +12,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        main_add_route_btn.setOnClickListener { view ->
+        main_btn_add_route.setOnClickListener { view ->
             val addRouteIntent = Intent(this, AddRouteActivity::class.java)
 
             startActivity(addRouteIntent)
