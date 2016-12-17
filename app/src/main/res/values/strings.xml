@@ -9,4 +9,6 @@
     <string name="add_route_select_end_point">Select End Point</string>
     <string name="add_route_departure_time">Departure Time</string>
     <string name="add_route_notification_time">Notification Time</string>
+    <string name="add_route_add_route_title">Add Route</string>
+    <string name="add_route_edit_route_title">Edit Route</string>
 </resources>
