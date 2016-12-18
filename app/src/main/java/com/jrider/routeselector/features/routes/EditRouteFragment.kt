@@ -3,6 +3,7 @@ package com.jrider.routeselector.features.routes
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.view.*
+import android.widget.ArrayAdapter
 import android.widget.Toast
 import com.jrider.routeselector.R
 import com.jrider.routeselector.RouteSelectorApplication
@@ -50,6 +51,11 @@ class EditRouteFragment : Fragment(), RouteContract.View {
 
         presenter.attachView(this)
 
+        val notificationTimeAdapter = ArrayAdapter.createFromResource(context, R.array.notification_time_options,
+                                                       android.R.layout.simple_spinner_dropdown_item)
+
+        spinner_add_route_notification_time.adapter = notificationTimeAdapter
+
         if (arguments != null && arguments.containsKey(ROUTE_ID_KEY)) {
             val routeIdToEdit = arguments.getString(ROUTE_ID_KEY)
 
@@ -94,9 +100,20 @@ class EditRouteFragment : Fragment(), RouteContract.View {
         val routeStartPoint = text_add_route_start_point.text.toString().trim()
         val routeEndPoint = text_add_route_end_point.toString().trim()
         val departureTime = text_add_route_departure_time.text.toString().trim()
-        val notificationTime = 0
 
         presenter.saveRoute(routeName, routeStartPoint, routeEndPoint, departureTime,
-                            notificationTime)
+                            getNotificationTimeMinutes())
+    }
+
+    private fun getNotificationTimeMinutes(): Int{
+        val selectedPosition = spinner_add_route_notification_time.selectedItemPosition
+
+        val notificationMinutes = when(selectedPosition){
+            0 -> 60
+            2 -> 15
+            else -> 30
+        }
+
+        return notificationMinutes
     }
 }
