@@ -39,24 +39,35 @@ class RoutePresenter @Inject constructor(private val routeModel: RouteModel) : R
     override fun saveRoute(name: String,
                            startPoint: String,
                            endPoint: String,
-                           departureTime: String,
                            notificationTime: Int) {
 
-        routeModel.saveRoute(name, startPoint, endPoint, departureTime, notificationTime)
+        routeModel.saveRoute(name, startPoint, endPoint, notificationTime)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({ routeView.routeSaved() }, Throwable::printStackTrace)
     }
 
+    override fun routeDepartureTimeUpdated(hour: Int, minute: Int) {
+
+        routeModel.saveRoute(hour, minute)
+
+        val formattedTimeString = formatTime(hour, minute)
+
+        routeView.setRouteTime(formattedTimeString)
+    }
+
     private fun formatTime(minutesSinceMidnight: Int): String {
 
-        val hoursSinceMidnight = minutesSinceMidnight % MINUTES_IN_HOUR
+        val hoursSinceMidnight = minutesSinceMidnight / MINUTES_IN_HOUR
 
         val minutesPastHour = minutesSinceMidnight - (hoursSinceMidnight * MINUTES_IN_HOUR)
 
-        val minutesPastHourString = if(minutesPastHour < 10){
+        return formatTime(hoursSinceMidnight, minutesPastHour)
+    }
+
+    private fun formatTime(hoursSinceMidnight: Int, minutesPastHour: Int): String {
+        val minutesPastHourString = if (minutesPastHour < 10) {
             "0$minutesPastHour"
-        }
-        else{
+        } else {
             minutesPastHour.toString()
         }
 
@@ -67,6 +78,14 @@ class RoutePresenter @Inject constructor(private val routeModel: RouteModel) : R
         }
 
         return "$hoursSinceMidnight:$minutesPastHourString $amPm"
+    }
+
+    override fun departureTimeHour(): Int {
+        return routeModel.currentRouteDepartureTimeHour()
+    }
+
+    override fun departureTimeMinute(): Int {
+        return routeModel.currentRouteDepartureTimeMinute()
     }
 
 }

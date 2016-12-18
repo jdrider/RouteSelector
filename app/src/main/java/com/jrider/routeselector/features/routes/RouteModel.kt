@@ -32,28 +32,34 @@ class RouteModel @Inject constructor() {
     fun saveRoute(name: String,
                   startPoint: String,
                   endPoint: String,
-                  departureTime: String,
                   notificationTime: Int): Completable {
-
-        val departureMinutes = convertTimeToMinutesFromMidnight(departureTime)
 
         currentRoute = currentRoute.copy(name = name,
                                          startPoint = startPoint,
                                          endPoint = endPoint,
-                                         departureTime = departureMinutes,
                                          notificationTime = notificationTime)
 
         return routeBook.write(currentRoute.id.toString(), currentRoute)
     }
 
-    private fun convertTimeToMinutesFromMidnight(departureTime: String): Int {
+    fun saveRoute(departureTimeHours: Int, departureTimeMinutes: Int) {
 
-        val timeComponents = departureTime.split(":")
+        val minutesFromMidnight = (departureTimeHours * MINUTES_IN_HOUR) + departureTimeMinutes
 
-        val hours = timeComponents[0].toInt()
-        val minutes = timeComponents[1].toInt()
+        currentRoute = currentRoute.copy(departureTime = minutesFromMidnight)
 
-        return (hours * MINUTES_IN_HOUR) + minutes
+        routeBook.write(currentRoute.id.toString(), currentRoute).subscribe()
     }
 
+    fun currentRouteDepartureTimeHour(): Int {
+        return currentRoute.departureTime / RoutePresenter.MINUTES_IN_HOUR
+    }
+
+    fun currentRouteDepartureTimeMinute(): Int{
+        val hoursSinceMidnight = currentRoute.departureTime / RoutePresenter.MINUTES_IN_HOUR
+
+        val minutesPastHour = currentRoute.departureTime - (hoursSinceMidnight * RoutePresenter.MINUTES_IN_HOUR)
+
+        return minutesPastHour
+    }
 }

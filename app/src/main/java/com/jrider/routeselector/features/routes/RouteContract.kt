@@ -21,9 +21,14 @@ interface RouteContract {
         fun saveRoute(name: String,
                       startPoint: String,
                       endPoint: String,
-                      departureTime: String,
                       notificationTime: Int)
 
         fun setRoute(routeId: String = NEW_ROUTE_ID)
+
+        fun routeDepartureTimeUpdated(hour: Int, minute: Int)
+
+        fun departureTimeHour(): Int
+
+        fun departureTimeMinute(): Int
     }
 }
