@@ -2,9 +2,8 @@ package com.jrider.routeselector.features.routes
 
 import android.os.Bundle
 import android.support.v4.app.Fragment
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
+import android.widget.Toast
 import com.jrider.routeselector.R
 import com.jrider.routeselector.RouteSelectorApplication
 import kotlinx.android.synthetic.main.fragment_edit_route.*
@@ -15,17 +14,17 @@ class EditRouteFragment : Fragment(), RouteContract.View {
     @Inject
     lateinit var presenter: RoutePresenter
 
-    companion object{
+    companion object {
 
         private const val ROUTE_ID_KEY: String = "EditRouteFragment.RouteId"
 
-        fun newInstance(routeId: Int) : EditRouteFragment{
+        fun newInstance(routeId: String): EditRouteFragment {
 
             val editRouteFragment = EditRouteFragment()
 
             val editArguments = Bundle()
 
-            editArguments.putInt(ROUTE_ID_KEY, routeId)
+            editArguments.putString(ROUTE_ID_KEY, routeId)
 
             editRouteFragment.arguments = editArguments
 
@@ -37,6 +36,8 @@ class EditRouteFragment : Fragment(), RouteContract.View {
         super.onCreate(savedInstanceState)
 
         RouteSelectorApplication.appComponent.inject(this)
+
+        setHasOptionsMenu(true)
     }
 
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?,
@@ -49,14 +50,27 @@ class EditRouteFragment : Fragment(), RouteContract.View {
 
         presenter.attachView(this)
 
-        if(arguments != null && arguments.containsKey(ROUTE_ID_KEY)) {
-            val routeIdToEdit = arguments.getInt(ROUTE_ID_KEY)
+        if (arguments != null && arguments.containsKey(ROUTE_ID_KEY)) {
+            val routeIdToEdit = arguments.getString(ROUTE_ID_KEY)
 
             presenter.setRoute(routeIdToEdit)
-        }
-        else {
+        } else {
             presenter.setRoute()
         }
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater?) {
+        inflater?.inflate(R.menu.edit_route, menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
+
+        if (item?.itemId == R.id.edit_route_save) {
+            saveRoute()
+            return true
+        }
+
+        return super.onOptionsItemSelected(item)
     }
 
     override fun onDestroyView() {
@@ -67,5 +81,13 @@ class EditRouteFragment : Fragment(), RouteContract.View {
 
     override fun setRouteTime(routeTime: String) {
         text_add_route_departure_time.setText(routeTime)
+    }
+
+    override fun routeSaved() {
+        Toast.makeText(context, "Route Saved", Toast.LENGTH_SHORT).show()
+    }
+
+    private fun saveRoute() {
+        presenter.saveRoute()
     }
 }

@@ -55,4 +55,6 @@ dependencies {
 
     compile "com.google.dagger:dagger:$DAGGER_VERSION"
     kapt "com.google.dagger:dagger-compiler:$DAGGER_VERSION"
+
+    compile 'com.github.pakoito:RxPaper:2.0.0'
 }

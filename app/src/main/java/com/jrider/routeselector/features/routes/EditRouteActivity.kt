@@ -13,7 +13,7 @@ class EditRouteActivity() : AppCompatActivity() {
 
         private const val ROUTE_ID_KEY: String = "EditRouteActivity.RouteId"
 
-        fun startIntent(context: Context, routeId: Int) : Intent {
+        fun startIntent(context: Context, routeId: String) : Intent {
 
             val startIntent = Intent(context, EditRouteActivity::class.java)
 
@@ -27,7 +27,7 @@ class EditRouteActivity() : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_edit_route)
 
-        val routeId = intent.getIntExtra(ROUTE_ID_KEY, RouteContract.NEW_ROUTE_ID)
+        val routeId = intent.getStringExtra(ROUTE_ID_KEY)
 
         val editRouteFragment = EditRouteFragment.newInstance(routeId)
 

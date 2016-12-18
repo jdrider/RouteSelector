@@ -11,4 +11,5 @@
     <string name="add_route_notification_time">Notification Time</string>
     <string name="add_route_add_route_title">Add Route</string>
     <string name="add_route_edit_route_title">Edit Route</string>
+    <string name="add_route_save">Save</string>
 </resources>
