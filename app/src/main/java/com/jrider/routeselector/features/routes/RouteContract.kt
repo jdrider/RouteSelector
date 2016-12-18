@@ -5,7 +5,7 @@ import com.jrider.routeselector.mvp.BaseView
 
 interface RouteContract {
 
-    companion object{
+    companion object {
         const val NEW_ROUTE_ID = "00000000-0000-0000-0000-000000000000"
     }
 
@@ -18,7 +18,11 @@ interface RouteContract {
 
     interface Presenter : BasePresenter<View> {
 
-        fun saveRoute()
+        fun saveRoute(name: String,
+                      startPoint: String,
+                      endPoint: String,
+                      departureTime: String,
+                      notificationTime: Int)
 
         fun setRoute(routeId: String = NEW_ROUTE_ID)
     }

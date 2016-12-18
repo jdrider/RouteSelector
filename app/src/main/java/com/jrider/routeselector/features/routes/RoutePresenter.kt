@@ -36,8 +36,13 @@ class RoutePresenter @Inject constructor(private val routeModel: RouteModel) : R
                            Throwable::printStackTrace)
     }
 
-    override fun saveRoute() {
-        routeModel.saveRoute()
+    override fun saveRoute(name: String,
+                           startPoint: String,
+                           endPoint: String,
+                           departureTime: String,
+                           notificationTime: Int) {
+
+        routeModel.saveRoute(name, startPoint, endPoint, departureTime, notificationTime)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({ routeView.routeSaved() }, Throwable::printStackTrace)
     }

@@ -85,9 +85,18 @@ class EditRouteFragment : Fragment(), RouteContract.View {
 
     override fun routeSaved() {
         Toast.makeText(context, "Route Saved", Toast.LENGTH_SHORT).show()
+        activity.finish()
     }
 
     private fun saveRoute() {
-        presenter.saveRoute()
+
+        val routeName = text_add_route_nickname.text.toString().trim()
+        val routeStartPoint = text_add_route_start_point.text.toString().trim()
+        val routeEndPoint = text_add_route_end_point.toString().trim()
+        val departureTime = text_add_route_departure_time.text.toString().trim()
+        val notificationTime = 0
+
+        presenter.saveRoute(routeName, routeStartPoint, routeEndPoint, departureTime,
+                            notificationTime)
     }
 }
