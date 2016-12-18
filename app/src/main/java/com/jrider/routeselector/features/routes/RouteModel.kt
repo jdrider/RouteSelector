@@ -2,6 +2,7 @@ package com.jrider.routeselector.features.routes
 
 import com.pacoworks.rxpaper.RxPaperBook
 import rx.Completable
+import rx.Observable
 import rx.Single
 import java.util.*
 import javax.inject.Inject
@@ -61,5 +62,15 @@ class RouteModel @Inject constructor() {
         val minutesPastHour = currentRoute.departureTime - (hoursSinceMidnight * RoutePresenter.MINUTES_IN_HOUR)
 
         return minutesPastHour
+    }
+
+    fun allRoutes(): List<Route>{
+
+       return routeBook.keys()
+                .flatMapObservable { Observable.from(it) }
+                .flatMap { routeBook.read<Route>(it).toObservable() }
+                .toList()
+                .toBlocking()
+                .first()
     }
 }

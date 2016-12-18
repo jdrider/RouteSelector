@@ -30,5 +30,7 @@ interface RouteContract {
         fun departureTimeHour(): Int
 
         fun departureTimeMinute(): Int
+
+        fun allRoutes(): List<Route>
     }
 }

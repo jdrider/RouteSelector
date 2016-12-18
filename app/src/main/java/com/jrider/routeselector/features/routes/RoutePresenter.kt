@@ -88,4 +88,7 @@ class RoutePresenter @Inject constructor(private val routeModel: RouteModel) : R
         return routeModel.currentRouteDepartureTimeMinute()
     }
 
+    override fun allRoutes(): List<Route> {
+        return routeModel.allRoutes()
+    }
 }

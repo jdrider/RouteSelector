@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import com.jrider.routeselector.features.routes.EditRouteActivity
 import com.jrider.routeselector.features.routes.RouteContract
+import com.jrider.routeselector.features.routes.RouteListFragment
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
@@ -17,5 +18,9 @@ class MainActivity : AppCompatActivity() {
 
             startActivity(addRouteIntent)
         }
+
+        val routeListFragment = RouteListFragment.newInstance()
+
+        supportFragmentManager.beginTransaction().replace(R.id.main_fragment_container, routeListFragment).commit()
     }
 }
