@@ -17,6 +17,8 @@ class RouteListFragment : Fragment() {
     @Inject
     lateinit var presenter: RouteContract.Presenter
 
+    lateinit var listAdapter: RouteListAdapter
+
     companion object {
         fun newInstance(): RouteListFragment {
             return RouteListFragment()
@@ -37,9 +39,21 @@ class RouteListFragment : Fragment() {
     override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val routeAdapter = RouteListAdapter(presenter.allRoutes())
+        listAdapter = RouteListAdapter(presenter.allRoutes())
 
-        recyclerview_route_list.adapter = routeAdapter
+        recyclerview_route_list.adapter = listAdapter
         recyclerview_route_list.layoutManager = LinearLayoutManager(context)
+    }
+
+    /**
+     * Called when the fragment is visible to the user and actively running.
+     * This is generally
+     * tied to [Activity.onResume] of the containing
+     * Activity's lifecycle.
+     */
+    override fun onResume() {
+        super.onResume()
+
+        listAdapter.updateRoutes(presenter.allRoutes())
     }
 }
