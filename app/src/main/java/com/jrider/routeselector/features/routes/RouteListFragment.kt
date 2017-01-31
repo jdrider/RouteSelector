@@ -2,10 +2,12 @@ package com.jrider.routeselector.features.routes
 
 import android.os.Bundle
 import android.support.v4.app.Fragment
+import android.support.v7.widget.DividerItemDecoration
 import android.support.v7.widget.LinearLayoutManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import com.jrider.routeselector.R
 import com.jrider.routeselector.RouteSelectorApplication
 import kotlinx.android.synthetic.main.fragment_route_list.*
@@ -41,8 +43,15 @@ class RouteListFragment : Fragment() {
 
         listAdapter = RouteListAdapter(presenter.allRoutes())
 
+        listAdapter.itemClickAction = { it -> Toast.makeText(context, "Tapped $it", Toast.LENGTH_SHORT).show() }
+
         recyclerview_route_list.adapter = listAdapter
         recyclerview_route_list.layoutManager = LinearLayoutManager(context)
+
+        //Adds a horizontal line between each item
+        val dividerItemDecoration = DividerItemDecoration(context, DividerItemDecoration.VERTICAL)
+
+        recyclerview_route_list.addItemDecoration(dividerItemDecoration)
     }
 
     /**
@@ -54,6 +63,7 @@ class RouteListFragment : Fragment() {
     override fun onResume() {
         super.onResume()
 
+        //TODO Use RecyclerView DiffUtil?
         listAdapter.updateRoutes(presenter.allRoutes())
     }
 }
