@@ -7,7 +7,6 @@ import android.support.v7.widget.LinearLayoutManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import com.jrider.routeselector.R
 import com.jrider.routeselector.RouteSelectorApplication
 import kotlinx.android.synthetic.main.fragment_route_list.*
@@ -43,7 +42,11 @@ class RouteListFragment : Fragment() {
 
         listAdapter = RouteListAdapter(presenter.allRoutes())
 
-        listAdapter.itemClickAction = { it -> Toast.makeText(context, "Tapped $it", Toast.LENGTH_SHORT).show() }
+        listAdapter.itemClickAction = { routeId: String ->
+            val editIntent = EditRouteActivity.startIntent(context, routeId)
+
+            startActivity(editIntent)
+        }
 
         recyclerview_route_list.adapter = listAdapter
         recyclerview_route_list.layoutManager = LinearLayoutManager(context)

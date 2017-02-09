@@ -85,8 +85,31 @@ class EditRouteFragment : Fragment(), RouteContract.View {
         presenter.detachView()
     }
 
-    override fun setRouteTime(routeTime: String) {
+    override fun setRouteDepartureTime(routeTime: String) {
         text_add_route_departure_time.setText(routeTime)
+    }
+
+    override fun setRouteNickname(routeNickname: String) {
+        text_add_route_nickname.setText(routeNickname)
+    }
+
+    override fun setStartpoint() {
+        throw UnsupportedOperationException("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    override fun setEndpoint() {
+        throw UnsupportedOperationException("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    override fun setNotificationTime(notificationTime: Int) {
+
+        val notificationTimeIndex = when(notificationTime){
+            15 -> 1
+            30 -> 2
+            else -> 0
+        }
+
+        spinner_add_route_notification_time.setSelection(notificationTimeIndex)
     }
 
     override fun routeSaved() {

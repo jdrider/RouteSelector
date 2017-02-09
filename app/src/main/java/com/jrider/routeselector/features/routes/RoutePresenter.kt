@@ -32,8 +32,13 @@ class RoutePresenter @Inject constructor(private val routeModel: RouteModel) : R
     override fun setRoute(routeId: String) {
 
         routeModel.setRoute(UUID.fromString(routeId))
-                .subscribe({ route -> routeView.setRouteTime(formatTime(route.departureTime)) },
-                           Throwable::printStackTrace)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe({ route ->
+                    routeView.setRouteDepartureTime(formatTime(route.departureTime))
+                    routeView.setRouteNickname(route.name)
+                    routeView.setNotificationTime(route.notificationTime)
+                },
+                        Throwable::printStackTrace)
     }
 
     override fun saveRoute(name: String,
@@ -52,7 +57,7 @@ class RoutePresenter @Inject constructor(private val routeModel: RouteModel) : R
 
         val formattedTimeString = formatTime(hour, minute)
 
-        routeView.setRouteTime(formattedTimeString)
+        routeView.setRouteDepartureTime(formattedTimeString)
     }
 
     private fun formatTime(minutesSinceMidnight: Int): String {

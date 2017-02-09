@@ -7,7 +7,7 @@ import android.support.v7.app.AppCompatActivity
 import android.view.MenuItem
 import com.jrider.routeselector.R
 
-class EditRouteActivity() : AppCompatActivity() {
+class EditRouteActivity : AppCompatActivity() {
 
     companion object{
 

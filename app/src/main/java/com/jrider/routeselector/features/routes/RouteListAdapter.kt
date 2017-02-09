@@ -44,7 +44,7 @@ class RouteListAdapter(private var routeList: List<Route>) : RecyclerView.Adapte
             val routeEnabledSwitch = itemView.findViewById(R.id.switch_route_list_item_enabled) as Switch
 
             routeNameTextView.text = route.name
-            routeEnabledSwitch.isEnabled = route.enabled
+            routeEnabledSwitch.isChecked = route.enabled
 
             routeNameTextView.tag = route.id.toString()
 

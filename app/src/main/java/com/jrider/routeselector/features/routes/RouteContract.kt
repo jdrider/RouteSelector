@@ -11,7 +11,15 @@ interface RouteContract {
 
     interface View : BaseView {
 
-        fun setRouteTime(routeTime: String)
+        fun setRouteDepartureTime(routeTime: String)
+
+        fun setRouteNickname(routeNickname: String)
+
+        fun setStartpoint()
+
+        fun setEndpoint()
+
+        fun setNotificationTime(notificationTime: Int)
 
         fun routeSaved()
     }
