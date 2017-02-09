@@ -48,6 +48,10 @@ class RouteListFragment : Fragment() {
             startActivity(editIntent)
         }
 
+        listAdapter.itemSwitchAction = { routeId: String, checked: Boolean ->
+            presenter.saveRouteEnabledStatus(routeId, checked)
+        }
+
         recyclerview_route_list.adapter = listAdapter
         recyclerview_route_list.layoutManager = LinearLayoutManager(context)
 

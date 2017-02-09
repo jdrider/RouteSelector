@@ -51,6 +51,16 @@ class RoutePresenter @Inject constructor(private val routeModel: RouteModel) : R
                 .subscribe({ routeView.routeSaved() }, Throwable::printStackTrace)
     }
 
+    override fun saveRouteEnabledStatus(routeId: String, enabled: Boolean) {
+
+        routeModel.routeBook.read<Route>(routeId)
+                .flatMapCompletable { route ->
+                    val updatedRoute = route.copy(enabled = enabled)
+                    routeModel.routeBook.write(routeId, updatedRoute)
+                }
+                .subscribe()
+    }
+
     override fun routeDepartureTimeUpdated(hour: Int, minute: Int) {
 
         routeModel.saveRoute(hour, minute)

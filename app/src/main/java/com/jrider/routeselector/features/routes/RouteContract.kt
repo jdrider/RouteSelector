@@ -31,6 +31,8 @@ interface RouteContract {
                       endPoint: String,
                       notificationTime: Int)
 
+        fun saveRouteEnabledStatus(routeId: String, enabled: Boolean)
+
         fun setRoute(routeId: String = NEW_ROUTE_ID)
 
         fun routeDepartureTimeUpdated(hour: Int, minute: Int)

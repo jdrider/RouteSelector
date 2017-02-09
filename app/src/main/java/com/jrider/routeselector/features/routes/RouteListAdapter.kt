@@ -12,6 +12,8 @@ class RouteListAdapter(private var routeList: List<Route>) : RecyclerView.Adapte
 
     var itemClickAction = { routeId: String -> Unit }
 
+    var itemSwitchAction = { routeId: String, selected: Boolean -> Unit }
+
     override fun onBindViewHolder(holder: RouteListItemViewHolder?, position: Int) {
 
         val routeForPosition = routeList[position]
@@ -47,8 +49,10 @@ class RouteListAdapter(private var routeList: List<Route>) : RecyclerView.Adapte
             routeEnabledSwitch.isChecked = route.enabled
 
             routeNameTextView.tag = route.id.toString()
+            routeEnabledSwitch.tag = route.id.toString()
 
             routeNameTextView.setOnClickListener { it -> this@RouteListAdapter.itemClickAction(it.tag as String) }
+            routeEnabledSwitch.setOnCheckedChangeListener { compoundButton, switchChecked -> this@RouteListAdapter.itemSwitchAction(compoundButton.tag as String, switchChecked) }
         }
     }
 }
