@@ -2,6 +2,7 @@ package com.jrider.routeselector.features.routes
 
 import android.os.Bundle
 import android.support.v4.app.Fragment
+import android.support.v7.util.DiffUtil
 import android.support.v7.widget.DividerItemDecoration
 import android.support.v7.widget.LinearLayoutManager
 import android.view.LayoutInflater
@@ -70,7 +71,12 @@ class RouteListFragment : Fragment() {
     override fun onResume() {
         super.onResume()
 
-        //TODO Use RecyclerView DiffUtil?
-        listAdapter.updateRoutes(presenter.allRoutes())
+        val updatedRoutes = presenter.allRoutes()
+
+        val routeDiffResult = DiffUtil.calculateDiff(RouteDiffUtilCallback(listAdapter.currentRoutes(), updatedRoutes))
+
+        listAdapter.updateRoutes(updatedRoutes)
+
+        routeDiffResult.dispatchUpdatesTo(listAdapter)
     }
 }

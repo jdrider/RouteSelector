@@ -34,8 +34,10 @@ class RouteListAdapter(private var routeList: List<Route>) : RecyclerView.Adapte
 
     fun updateRoutes(updatedRouteList: List<Route>) {
         routeList = updatedRouteList
+    }
 
-        notifyDataSetChanged()
+    fun currentRoutes(): List<Route>{
+        return routeList
     }
 
     inner class RouteListItemViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
