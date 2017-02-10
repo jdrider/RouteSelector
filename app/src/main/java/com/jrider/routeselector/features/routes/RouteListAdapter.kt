@@ -14,6 +14,10 @@ class RouteListAdapter(private var routeList: List<Route>) : RecyclerView.Adapte
 
     var itemSwitchAction = { routeId: String, selected: Boolean -> Unit }
 
+    init {
+        routeList = routeList.sortedBy { it.name }
+    }
+
     override fun onBindViewHolder(holder: RouteListItemViewHolder?, position: Int) {
 
         val routeForPosition = routeList[position]
@@ -33,10 +37,10 @@ class RouteListAdapter(private var routeList: List<Route>) : RecyclerView.Adapte
     }
 
     fun updateRoutes(updatedRouteList: List<Route>) {
-        routeList = updatedRouteList
+        routeList = updatedRouteList.sortedBy { it.name }
     }
 
-    fun currentRoutes(): List<Route>{
+    fun currentRoutes(): List<Route> {
         return routeList
     }
 
