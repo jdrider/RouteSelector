@@ -57,4 +57,6 @@ dependencies {
     kapt "com.google.dagger:dagger-compiler:$DAGGER_VERSION"
 
     compile 'com.github.pakoito:RxPaper:2.0.0'
+
+    compile 'com.google.android.gms:play-services-places:10.0.1'
 }
