@@ -71,7 +71,7 @@ class RouteListFragment : Fragment() {
     override fun onResume() {
         super.onResume()
 
-        val updatedRoutes = presenter.allRoutes()
+        val updatedRoutes = presenter.allRoutes().sortedBy { it.name }
 
         val routeDiffResult = DiffUtil.calculateDiff(RouteDiffUtilCallback(listAdapter.currentRoutes(), updatedRoutes))
 
