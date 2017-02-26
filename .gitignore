@@ -10,3 +10,4 @@
 .idea/*
 profiles_settings.xml
 vcs.xml
+gradle.properties
