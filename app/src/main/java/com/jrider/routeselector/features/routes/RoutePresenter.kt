@@ -33,22 +33,14 @@ class RoutePresenter @Inject constructor(private val routeModel: RouteModel) : R
 
         routeModel.setRoute(UUID.fromString(routeId))
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe({ route ->
+                .subscribe({ route: Route ->
                     routeView.setRouteDepartureTime(formatTime(route.departureTime))
                     routeView.setRouteNickname(route.name)
                     routeView.setNotificationTime(route.notificationTime)
+                    routeView.setStartpoint(route.startPoint.name)
+                    routeView.setEndpoint(route.endPoint.name)
                 },
                         Throwable::printStackTrace)
-    }
-
-    override fun saveRoute(name: String,
-                           startPoint: String,
-                           endPoint: String,
-                           notificationTime: Int) {
-
-        routeModel.saveRoute(name, startPoint, endPoint, notificationTime)
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe({ routeView.routeSaved() }, Throwable::printStackTrace)
     }
 
     override fun saveRouteEnabledStatus(routeId: String, enabled: Boolean) {
@@ -105,5 +97,22 @@ class RoutePresenter @Inject constructor(private val routeModel: RouteModel) : R
 
     override fun allRoutes(): List<Route> {
         return routeModel.allRoutes()
+    }
+
+    override fun updateRouteNotificationTime(notificationTime: Int) {
+        routeModel.updateRouteNotificationTime(notificationTime)
+                .subscribe()
+    }
+
+    override fun updateRouteName(name: String) {
+        routeModel.updateRouteName(name).subscribe()
+    }
+
+    override fun updateRouteStartPoint(startPointName: String, startLatitude: Double, startLongitude: Double) {
+        routeModel.updateRouteStartPoint(startPointName, startLatitude, startLongitude).subscribe()
+    }
+
+    override fun updateRouteEndpoint(endPointName: String, endLatitude: Double, endLongitude: Double) {
+        routeModel.updateRouteEndpoint(endPointName, endLatitude, endLongitude).subscribe()
     }
 }

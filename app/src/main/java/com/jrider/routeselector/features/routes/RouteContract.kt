@@ -15,21 +15,22 @@ interface RouteContract {
 
         fun setRouteNickname(routeNickname: String)
 
-        fun setStartpoint()
+        fun setStartpoint(startPointName: String)
 
-        fun setEndpoint()
+        fun setEndpoint(endPointName: String)
 
         fun setNotificationTime(notificationTime: Int)
-
-        fun routeSaved()
     }
 
     interface Presenter : BasePresenter<View> {
 
-        fun saveRoute(name: String,
-                      startPoint: String,
-                      endPoint: String,
-                      notificationTime: Int)
+        fun updateRouteNotificationTime(notificationTime: Int)
+
+        fun updateRouteName(name: String)
+
+        fun updateRouteStartPoint(startPointName: String, startLatitude: Double, startLongitude: Double)
+
+        fun updateRouteEndpoint(endPointName: String, endLatitude: Double, endLongitude: Double)
 
         fun saveRouteEnabledStatus(routeId: String, enabled: Boolean)
 

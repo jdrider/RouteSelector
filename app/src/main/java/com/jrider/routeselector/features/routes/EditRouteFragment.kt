@@ -6,14 +6,16 @@ import android.content.Intent
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.view.*
+import android.widget.AdapterView
 import android.widget.ArrayAdapter
-import android.widget.Toast
 import com.google.android.gms.common.GooglePlayServicesNotAvailableException
 import com.google.android.gms.common.GooglePlayServicesRepairableException
+import com.google.android.gms.location.places.AutocompleteFilter
 import com.google.android.gms.location.places.ui.PlaceAutocomplete
 import com.jrider.routeselector.R
 import com.jrider.routeselector.RouteSelectorApplication
 import kotlinx.android.synthetic.main.fragment_edit_route.*
+import timber.log.Timber
 import javax.inject.Inject
 
 
@@ -112,9 +114,17 @@ class EditRouteFragment : Fragment(), RouteContract.View {
 
             if (requestCode == START_POINT_PLACE_REQUEST) {
                 val startPlace = PlaceAutocomplete.getPlace(context, data)
+
+                presenter.updateRouteStartPoint(startPlace.address.toString(), startPlace.latLng.latitude, startPlace.latLng.longitude)
+
+                setStartpoint(startPlace.address.toString())
+
             } else if (requestCode == END_POINT_PLACE_REQUEST) {
                 val endPlace = PlaceAutocomplete.getPlace(context, data)
 
+                presenter.updateRouteEndpoint(endPlace.address.toString(), endPlace.latLng.latitude, endPlace.latLng.longitude)
+
+                setEndpoint(endPlace.address.toString())
             }
         }
     }
@@ -133,12 +143,12 @@ class EditRouteFragment : Fragment(), RouteContract.View {
         text_add_route_nickname.setText(routeNickname)
     }
 
-    override fun setStartpoint() {
-        throw UnsupportedOperationException("not implemented") //To change body of created functions use File | Settings | File Templates.
+    override fun setStartpoint(startPointName: String) {
+        text_add_route_start_point.setText(startPointName)
     }
 
-    override fun setEndpoint() {
-        throw UnsupportedOperationException("not implemented") //To change body of created functions use File | Settings | File Templates.
+    override fun setEndpoint(endPointName: String) {
+        text_add_route_end_point.setText(endPointName)
     }
 
     override fun setNotificationTime(notificationTime: Int) {
@@ -150,11 +160,6 @@ class EditRouteFragment : Fragment(), RouteContract.View {
         }
 
         spinner_add_route_notification_time.setSelection(notificationTimeIndex)
-    }
-
-    override fun routeSaved() {
-        Toast.makeText(context, "Route Saved", Toast.LENGTH_SHORT).show()
-        activity.finish()
     }
 
     private fun setupClickListeners() {
@@ -186,15 +191,25 @@ class EditRouteFragment : Fragment(), RouteContract.View {
                 android.R.layout.simple_spinner_dropdown_item)
 
         spinner_add_route_notification_time.adapter = notificationTimeAdapter
+
+        spinner_add_route_notification_time.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onNothingSelected(p0: AdapterView<*>?) {
+                //Purposefully left blank
+            }
+
+            override fun onItemSelected(p0: AdapterView<*>?, p1: View?, selectedIndex: Int, p3: Long) {
+                presenter.updateRouteNotificationTime(getNotificationTimeMinutes())
+            }
+        }
     }
 
     private fun saveRoute() {
 
         val routeName = text_add_route_nickname.text.toString().trim()
-        val routeStartPoint = text_add_route_start_point.text.toString().trim()
-        val routeEndPoint = text_add_route_end_point.toString().trim()
 
-        presenter.saveRoute(routeName, routeStartPoint, routeEndPoint, getNotificationTimeMinutes())
+        presenter.updateRouteName(routeName)
+
+        activity.finish()
     }
 
     private fun getNotificationTimeMinutes(): Int {
@@ -218,13 +233,19 @@ class EditRouteFragment : Fragment(), RouteContract.View {
 
         try {
 
-            val placePredictorIntent = PlaceAutocomplete.IntentBuilder(PlaceAutocomplete.MODE_OVERLAY).build(activity)
+            val autoCompleteFilter = AutocompleteFilter.Builder().setCountry("US")
+                    .setTypeFilter(AutocompleteFilter.TYPE_FILTER_ADDRESS)
+                    .build()
+
+            val placePredictorIntent = PlaceAutocomplete.IntentBuilder(PlaceAutocomplete.MODE_OVERLAY)
+                    .setFilter(autoCompleteFilter)
+                    .build(activity)
 
             startActivityForResult(placePredictorIntent, requestCode)
         } catch (servicesRepairableException: GooglePlayServicesRepairableException) {
-
+            Timber.e(servicesRepairableException)
         } catch(servicesNotAvailableException: GooglePlayServicesNotAvailableException) {
-
+            Timber.e(servicesNotAvailableException)
         }
     }
 }

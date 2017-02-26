@@ -30,19 +30,6 @@ class RouteModel @Inject constructor() {
         }
     }
 
-    fun saveRoute(name: String,
-                  startPoint: String,
-                  endPoint: String,
-                  notificationTime: Int): Completable {
-
-        currentRoute = currentRoute.copy(name = name,
-                                         startPoint = startPoint,
-                                         endPoint = endPoint,
-                                         notificationTime = notificationTime)
-
-        return routeBook.write(currentRoute.id.toString(), currentRoute)
-    }
-
     fun saveRoute(departureTimeHours: Int, departureTimeMinutes: Int) {
 
         val minutesFromMidnight = (departureTimeHours * MINUTES_IN_HOUR) + departureTimeMinutes
@@ -52,11 +39,40 @@ class RouteModel @Inject constructor() {
         routeBook.write(currentRoute.id.toString(), currentRoute).subscribe()
     }
 
+    fun updateRouteNotificationTime(notificationTime: Int): Completable {
+        currentRoute = currentRoute.copy(notificationTime = notificationTime)
+
+        return routeBook.write(currentRoute.id.toString(), currentRoute)
+    }
+
+    fun updateRouteName(name: String): Completable {
+        currentRoute = currentRoute.copy(name = name)
+
+        return routeBook.write(currentRoute.id.toString(), currentRoute)
+    }
+
+    fun updateRouteStartPoint(startPointName: String, startLatitude: Double, startLongitude: Double): Completable {
+
+        val newStartPoint = RoutePoint(name = startPointName, latitude = startLatitude, longitude = startLongitude)
+
+        currentRoute = currentRoute.copy(startPoint = newStartPoint)
+
+        return routeBook.write(currentRoute.id.toString(), currentRoute)
+    }
+
+    fun updateRouteEndpoint(endPointName: String, endLatitude: Double, endLongitude: Double): Completable {
+        val newEndPoint = RoutePoint(name = endPointName, latitude = endLatitude, longitude = endLongitude)
+
+        currentRoute = currentRoute.copy(endPoint = newEndPoint)
+
+        return routeBook.write(currentRoute.id.toString(), currentRoute)
+    }
+
     fun currentRouteDepartureTimeHour(): Int {
         return currentRoute.departureTime / RoutePresenter.MINUTES_IN_HOUR
     }
 
-    fun currentRouteDepartureTimeMinute(): Int{
+    fun currentRouteDepartureTimeMinute(): Int {
         val hoursSinceMidnight = currentRoute.departureTime / RoutePresenter.MINUTES_IN_HOUR
 
         val minutesPastHour = currentRoute.departureTime - (hoursSinceMidnight * RoutePresenter.MINUTES_IN_HOUR)
@@ -64,9 +80,9 @@ class RouteModel @Inject constructor() {
         return minutesPastHour
     }
 
-    fun allRoutes(): List<Route>{
+    fun allRoutes(): List<Route> {
 
-       return routeBook.keys()
+        return routeBook.keys()
                 .flatMapObservable { Observable.from(it) }
                 .flatMap { routeBook.read<Route>(it).toObservable() }
                 .toList()

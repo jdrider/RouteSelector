@@ -61,4 +61,6 @@ dependencies {
     compile 'com.github.pakoito:RxPaper:2.0.0'
 
     compile 'com.google.android.gms:play-services-places:10.0.1'
+
+    compile 'com.jakewharton.timber:timber:4.5.1'
 }
