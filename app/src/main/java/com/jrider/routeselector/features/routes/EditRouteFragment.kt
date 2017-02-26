@@ -64,10 +64,6 @@ class EditRouteFragment : Fragment(), RouteContract.View {
 
         presenter.attachView(this)
 
-        setupArrayAdapter()
-
-        setupClickListeners()
-
         if (arguments != null && arguments.containsKey(ROUTE_ID_KEY)) {
             val routeIdToEdit = arguments.getString(ROUTE_ID_KEY)
 
@@ -75,6 +71,10 @@ class EditRouteFragment : Fragment(), RouteContract.View {
         } else {
             presenter.setRoute()
         }
+
+        setupArrayAdapter()
+
+        setupClickListeners()
     }
 
     override fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater?) {
@@ -198,7 +198,7 @@ class EditRouteFragment : Fragment(), RouteContract.View {
             }
 
             override fun onItemSelected(p0: AdapterView<*>?, p1: View?, selectedIndex: Int, p3: Long) {
-                presenter.updateRouteNotificationTime(getNotificationTimeMinutes())
+                presenter.updateRouteNotificationTime(getNotificationTimeMinutes(selectedIndex))
             }
         }
     }
@@ -212,13 +212,12 @@ class EditRouteFragment : Fragment(), RouteContract.View {
         activity.finish()
     }
 
-    private fun getNotificationTimeMinutes(): Int {
-        val selectedPosition = spinner_add_route_notification_time.selectedItemPosition
+    private fun getNotificationTimeMinutes(notificationIndex: Int): Int {
 
-        val notificationMinutes = when (selectedPosition) {
-            0 -> 60
-            2 -> 15
-            else -> 30
+        val notificationMinutes = when (notificationIndex) {
+            1 -> 15
+            2 -> 30
+            else -> 60
         }
 
         return notificationMinutes
