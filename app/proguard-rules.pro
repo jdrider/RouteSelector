@@ -17,3 +17,4 @@
 #}
 
 -keep class com.jrider.routeselector.features.route.Route { *; }
+-keep class com.jrider.routeselector.features.route.RoutePoint { *; }

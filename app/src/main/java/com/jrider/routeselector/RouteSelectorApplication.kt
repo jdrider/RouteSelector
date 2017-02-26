@@ -1,7 +1,6 @@
 package com.jrider.routeselector
 
 import android.app.Application
-import com.jakewharton.threetenabp.AndroidThreeTen
 import com.jrider.routeselector.dagger.ApplicationComponent
 import com.jrider.routeselector.dagger.DaggerApplicationComponent
 import com.pacoworks.rxpaper.RxPaperBook
@@ -21,8 +20,6 @@ class RouteSelectorApplication : Application() {
     }
 
     private fun initDependencies(){
-        AndroidThreeTen.init(this)
-
         RxPaperBook.init(this)
     }
 }
