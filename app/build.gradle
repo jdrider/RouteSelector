@@ -6,7 +6,7 @@ apply plugin: 'com.getkeepsafe.dexcount'
 android {
     compileSdkVersion 25
 
-    buildToolsVersion '25.0.1'
+    buildToolsVersion '25.0.2'
 
     defaultConfig {
         applicationId "com.jrider.routeselector"
@@ -34,7 +34,7 @@ kapt {
     generateStubs = true
 }
 
-def SUPPORT_LIB_VERSION = '25.1.0'
+def SUPPORT_LIB_VERSION = '25.2.0'
 def DAGGER_VERSION = '2.8'
 
 dependencies {
