@@ -37,6 +37,7 @@ kapt {
 
 def SUPPORT_LIB_VERSION = '25.2.0'
 def DAGGER_VERSION = '2.8'
+def RETROFIT_VERSION = '2.2.0'
 
 dependencies {
 
@@ -62,4 +63,8 @@ dependencies {
     compile 'com.google.android.gms:play-services-places:10.0.1'
 
     compile 'com.jakewharton.timber:timber:4.5.1'
+
+    compile "com.squareup.retrofit2:retrofit:$RETROFIT_VERSION"
+    compile "com.squareup.retrofit2:adapter-rxjava:$RETROFIT_VERSION"
+    compile "com.squareup.retrofit2:converter-moshi:$RETROFIT_VERSION"
 }
