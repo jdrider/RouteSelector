@@ -19,3 +19,4 @@ org.gradle.jvmargs=-Xmx1536m
 org.gradle.daemon=true
 
 PLACES_API_KEY=[INSERT_KEY]
+DIRECTIONS_API_KEY=[INSERT_KEY]
