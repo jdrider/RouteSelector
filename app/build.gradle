@@ -18,6 +18,7 @@ android {
 
         resValue "string", "PLACES_API_KEY", PLACES_API_KEY
         buildConfigField "String", "DIRECTIONS_API_KEY", "\"$DIRECTIONS_API_KEY\""
+        buildConfigField "String", "DIRECTIONS_API_URL", '\"https://maps.googleapis.com\"'
     }
 
     buildTypes {
