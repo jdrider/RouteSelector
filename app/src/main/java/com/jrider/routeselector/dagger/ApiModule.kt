@@ -5,7 +5,6 @@ import com.jrider.routeselector.api.DirectionsApi
 import dagger.Module
 import dagger.Provides
 import retrofit2.Retrofit
-import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory
 import retrofit2.converter.moshi.MoshiConverterFactory
 import javax.inject.Singleton
 
@@ -24,7 +23,6 @@ class ApiModule {
 
         val retrofitClient = Retrofit.Builder()
                 .baseUrl(BuildConfig.DIRECTIONS_API_URL)
-                .addCallAdapterFactory(RxJavaCallAdapterFactory.createAsync())
                 .addConverterFactory(MoshiConverterFactory.create())
                 .build()
 
