@@ -71,4 +71,6 @@ dependencies {
     compile "com.squareup.retrofit2:converter-moshi:$RETROFIT_VERSION"
 
     compile 'ru.gildor.coroutines:kotlin-coroutines-retrofit:0.4.1'
+
+    compile 'com.evernote:android-job:1.1.7'
 }
