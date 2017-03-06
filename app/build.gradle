@@ -36,6 +36,8 @@ kapt {
     generateStubs = true
 }
 
+kotlin { experimental { coroutines "enable" } }
+
 def SUPPORT_LIB_VERSION = '25.2.0'
 def DAGGER_VERSION = '2.8'
 def RETROFIT_VERSION = '2.2.0'
@@ -68,4 +70,6 @@ dependencies {
     compile "com.squareup.retrofit2:retrofit:$RETROFIT_VERSION"
     compile "com.squareup.retrofit2:adapter-rxjava:$RETROFIT_VERSION"
     compile "com.squareup.retrofit2:converter-moshi:$RETROFIT_VERSION"
+
+    compile 'ru.gildor.coroutines:kotlin-coroutines-retrofit:0.4.1'
 }
