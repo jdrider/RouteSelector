@@ -64,13 +64,14 @@ class EditRouteFragment : Fragment(), RouteContract.View {
 
         presenter.attachView(this)
 
-        if (arguments != null && arguments.containsKey(ROUTE_ID_KEY)) {
-            val routeIdToEdit = arguments.getString(ROUTE_ID_KEY)
+        arguments?.let {
 
-            presenter.setRoute(routeIdToEdit)
-        } else {
-            presenter.setRoute()
-        }
+            if (arguments.containsKey(ROUTE_ID_KEY)) {
+                val routeIdToEdit = arguments.getString(ROUTE_ID_KEY)
+
+                presenter.setRoute(routeIdToEdit)
+            }
+        } ?: presenter.setRoute()
 
         setupArrayAdapter()
 
