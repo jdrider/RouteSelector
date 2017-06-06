@@ -29,6 +29,8 @@ class MainActivity : AppCompatActivity() {
         val routeListFragment = RouteListFragment.newInstance()
 
         supportFragmentManager.beginTransaction().replace(R.id.main_fragment_container, routeListFragment).commit()
+
+        title = ""
     }
 
     /**
