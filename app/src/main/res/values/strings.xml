@@ -3,8 +3,8 @@
 
     <!-- Add Route -->
     <string name="add_route_route_nickname">Nickname</string>
-    <string name="add_route_route_start_point">Start</string>
-    <string name="add_route_route_end_point">End</string>
+    <string name="add_route_route_start_point">Start Point</string>
+    <string name="add_route_route_end_point">End Point</string>
     <string name="add_route_select_start_point">Select Start Point</string>
     <string name="add_route_select_end_point">Select End Point</string>
     <string name="add_route_departure_time">Departure Time</string>

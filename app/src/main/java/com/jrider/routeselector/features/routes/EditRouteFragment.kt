@@ -173,14 +173,6 @@ class EditRouteFragment : Fragment(), RouteContract.View {
                     false).show()
         }
 
-        button_map_start_point.setOnClickListener {
-            openPlacePredictor(START_POINT_PLACE_REQUEST)
-        }
-
-        button_map_end_point.setOnClickListener {
-            openPlacePredictor(END_POINT_PLACE_REQUEST)
-        }
-
         text_add_route_start_point.setOnClickListener { openPlacePredictor(START_POINT_PLACE_REQUEST) }
 
         text_add_route_end_point.setOnClickListener { openPlacePredictor(END_POINT_PLACE_REQUEST) }
