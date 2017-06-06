@@ -13,14 +13,14 @@ import kotlinx.android.synthetic.main.activity_main.*
 class MainActivity : AppCompatActivity() {
 
     companion object {
-        const val PLAY_SERVICES_DIALOG_REQUEST_CODE = 67;
+        const val PLAY_SERVICES_DIALOG_REQUEST_CODE = 67
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        main_btn_add_route.setOnClickListener { view ->
+        main_btn_add_route.setOnClickListener {
             val addRouteIntent = EditRouteActivity.startIntent(this, RouteContract.NEW_ROUTE_ID)
 
             startActivity(addRouteIntent)

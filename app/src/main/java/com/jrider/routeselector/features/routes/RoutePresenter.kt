@@ -33,12 +33,12 @@ class RoutePresenter @Inject constructor(private val routeModel: RouteModel) : R
 
         routeModel.setRoute(UUID.fromString(routeId))
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe({ route: Route ->
-                    routeView.setRouteDepartureTime(formatTime(route.departureTime))
-                    routeView.setRouteNickname(route.name)
-                    routeView.setNotificationTime(route.notificationTime)
-                    routeView.setStartpoint(route.startPoint.name)
-                    routeView.setEndpoint(route.endPoint.name)
+                .subscribe({ (_, name, startPoint, endPoint, departureTime, notificationTime) ->
+                    routeView.setRouteDepartureTime(formatTime(departureTime))
+                    routeView.setRouteNickname(name)
+                    routeView.setNotificationTime(notificationTime)
+                    routeView.setStartpoint(startPoint.name)
+                    routeView.setEndpoint(endPoint.name)
                 },
                         Throwable::printStackTrace)
     }
