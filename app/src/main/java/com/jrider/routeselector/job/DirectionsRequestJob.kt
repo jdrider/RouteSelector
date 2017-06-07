@@ -1,19 +1,34 @@
 package com.jrider.routeselector.job
 
+import android.app.NotificationManager
+import android.content.Context
+import android.support.v4.app.NotificationCompat
 import com.evernote.android.job.Job
 import com.evernote.android.job.JobRequest
 import com.evernote.android.job.util.support.PersistableBundleCompat
+import com.jrider.routeselector.RouteSelectorApplication
+import com.jrider.routeselector.api.DirectionsApi
+import com.jrider.routeselector.api.DirectionsRequest
+import com.jrider.routeselector.api.model.DirectionsResponse
 import com.jrider.routeselector.features.routes.Route
+import com.jrider.routeselector.util.UUIDTypeAdapter
 import com.squareup.moshi.Moshi
 import kotlinx.coroutines.experimental.runBlocking
+import ru.gildor.coroutines.retrofit.await
 import timber.log.Timber
 import java.util.*
 import java.util.concurrent.TimeUnit
+import javax.inject.Inject
 
 class DirectionsRequestJob : Job() {
 
+    @Inject
+    lateinit var directionsApi: DirectionsApi
+
     companion object {
         const val TAG = "DirectionsRequestJob"
+
+        var TAG2 = DirectionsRequestJob::class.java.simpleName
 
         private const val ROUTE_KEY = "RouteForJob"
 
@@ -36,7 +51,9 @@ class DirectionsRequestJob : Job() {
 
         private fun jobExtraValues(routeJob: Route): PersistableBundleCompat {
 
-            val moshi = Moshi.Builder().build()
+            val moshi = Moshi.Builder()
+                    .add(UUIDTypeAdapter())
+                    .build()
 
             val routeJsonAdapter = moshi.adapter(Route::class.java)
 
@@ -71,6 +88,8 @@ class DirectionsRequestJob : Job() {
 
     override fun onRunJob(params: Params): Result {
 
+        RouteSelectorApplication.appComponent.inject(this)
+
         Timber.i("Starting Directions Job")
 
         val routeJson = params.extras.getString(DirectionsRequestJob.ROUTE_KEY, "")
@@ -78,6 +97,10 @@ class DirectionsRequestJob : Job() {
         val routeForJob = createRouteFromJson(routeJson)
 
         try {
+
+            val directionsResponse = requestRouteDirections(routeForJob)
+
+            createNotification(directionsResponse)
 
             Timber.i("Ending Directions Job")
 
@@ -92,20 +115,49 @@ class DirectionsRequestJob : Job() {
 
     private fun requestRouteDirections(currentRoute: Route) = runBlocking {
 
-        //        val directionsRequest = DirectionsRequest(currentRoute)
-//
-//        val responseJson = directionsApi.routeList(directionsRequest.generateRequestMap()).await()
-//
-//        Timber.d(responseJson.toString())
+        val directionsRequest = DirectionsRequest(currentRoute)
+
+        directionsApi.routeList(directionsRequest.generateRequestMap()).await()
     }
 
     private fun createRouteFromJson(routeJson: String): Route {
 
-        val moshi = Moshi.Builder().build()
+        val moshi = Moshi.Builder()
+                .add(UUIDTypeAdapter())
+                .build()
 
         val routeJsonAdapter = moshi.adapter(Route::class.java)
 
         return routeJsonAdapter.fromJson(routeJson)
+    }
+
+    private fun createNotification(directionsResponse: DirectionsResponse) {
+
+        val contentText = getNotificationText(directionsResponse)
+
+        val routeNotification = NotificationCompat.Builder(context)
+                .setContentText(contentText)
+                .setContentTitle("Route Selected")
+                .build();
+
+        val notificationManager = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+
+        notificationManager.notify(10, routeNotification)
+    }
+
+    private fun getNotificationText(directionsResponse: DirectionsResponse): String {
+
+        var notificationText = ""
+
+        val firstRoute = directionsResponse.routes.firstOrNull()
+
+        firstRoute.let {
+            val firstLeg = firstRoute?.legs?.firstOrNull()
+
+            notificationText = "${firstLeg?.distance?.text}, ${firstLeg?.duration?.text}"
+        }
+
+        return notificationText
     }
 
 }

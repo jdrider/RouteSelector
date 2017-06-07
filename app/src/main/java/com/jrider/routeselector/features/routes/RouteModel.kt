@@ -1,5 +1,6 @@
 package com.jrider.routeselector.features.routes
 
+import com.jrider.routeselector.job.DirectionsRequestJob
 import com.pacoworks.rxpaper.RxPaperBook
 import rx.Completable
 import rx.Observable
@@ -37,6 +38,8 @@ class RouteModel @Inject constructor() {
         currentRoute = currentRoute.copy(departureTime = minutesFromMidnight)
 
         routeBook.write(currentRoute.id.toString(), currentRoute).subscribe()
+
+        DirectionsRequestJob.scheduleJob(currentRoute, true)
     }
 
     fun updateRouteNotificationTime(notificationTime: Int): Completable {
